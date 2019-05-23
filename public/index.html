@@ -1,10 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-    <title></title>
-</head>
-<body>
-    <script src="/js/vue.js"></script>
-    <script src="/js/axios.min.js"></script>
-</body>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/styles.css" type="text/css" />
+        <title>Salt Image Board</title>
+    </head>
+
+    <body>
+        <div class="" id="main">
+            <form>
+                <input
+                    v-model="formUpload.title"
+                    type="text"
+                    name="title"
+                    value=""
+                    placeholder="image title"
+                />
+                <input
+                    v-model="formUpload.description"
+                    type="text"
+                    name="description"
+                    value=""
+                    placeholder="image description"
+                />
+                <input
+                    v-model="formUpload.username"
+                    type="text"
+                    name="username"
+                    value=""
+                    placeholder="enter your username"
+                />
+                <input
+                    type="file"
+                    name="file"
+                    value=""
+                    accept="image/*"
+                    @change="handleFiles"
+                />
+                <button @click.prevent.default="uploadFile">Upload</button>
+            </form>
+            <!-- WE CAN NOW DO VUE THINGS IN THIS DIV -->
+            <!--
+                <p>2 +2 = {{2+2}}</p>
+                <h1>Welcome to my site, {{name}}</h1>
+
+                <ul>
+                    <li v-for="(animal, index) in cuteAnimals" v-if="animal.cuteness > 5">{{animal.name}} {{animal.cuteness}}</li>
+                </ul>
+            -->
+
+            <!-- <p v-if="cities.length > 0">{{cities[0].name}}</p> -->
+            <div class="cardcontainer">
+                <div class="card" v-for="image in images">
+                    <div class="picture">
+                        <img :src="image.url" alt="image" />
+                    </div>
+                    <div class="subtitle"><p>{{image.title}}</p></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/vue.js"></script>
+        <script src="/js/axios.min.js"></script>
+        <script src="/js/script.js"></script>
+    </body>
 </html>

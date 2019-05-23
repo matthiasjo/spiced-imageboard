@@ -1,0 +1,36 @@
+#main {
+}
+
+.cardcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    overflow: hidden;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    width: 15rem;
+    height: 17rem;
+    margin: 1rem;
+    border: 0.05rem black solid;
+    transition: all 0.2s ease-in-out;
+}
+.card:hover {
+    transform: scale(1.1);
+}
+
+img {
+    object-fit: cover;
+    display: relative;
+    width: 15rem;
+    height: 15rem;
+}
