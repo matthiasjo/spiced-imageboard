@@ -37,6 +37,9 @@
                     .then(function(resp) {
                         self.modalComments.unshift(resp.data);
                     });
+            },
+            closeModal: function() {
+                this.$emit("close-modal");
             }
         },
         template: "#modal-template"

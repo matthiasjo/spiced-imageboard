@@ -2,12 +2,15 @@
 }
 
 .cardcontainer {
+    margin: auto;
+    margin-top: 5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
+    width: 80%;
 }
 
 .card {
@@ -31,13 +34,75 @@
 .imgOverview {
     object-fit: cover;
     display: relative;
-    width: 15rem;
-    height: 15rem;
+    width: 20rem;
+    height: 20rem;
 }
 
 .imgModal {
-    object-fit: cover;
+    /* object-fit: cover; */
     display: relative;
     width: 30rem;
     height: 30rem;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 400;
+    color: black;
+    background-color: #ffeb3b;
+    display: inline-block;
+    padding: 0.5em;
+    border-radius: 5%;
+    box-shadow: 0.1em 0.1em 0.1em rgba(50, 50, 50, 0.75);
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #ffc107;
+}
+
+.inputfile + label {
+    cursor: pointer;
+}
+
+.uploadForm {
+    display: inline-flex;
+    width: 33%;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #42a5f5;
+    position: fixed;
+    z-index: 1;
+    top: 15%;
+    left: 25%;
+    width: 50%;
+}
+
+.modal-container > img {
+    /* height: 600px;
+    width: 60%;
+    border: 3px solid darkgray;
+    border-radius: 0;
+    margin-top: 50px; */
+}
+
+body {
+    background-color: #861657;
+    background-image: linear-gradient(326deg, #861657 0%, #ffa69e 74%);
+    background-size: cover;
+    background-position: center;
+    margin: 0;
 }

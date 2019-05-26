@@ -6,7 +6,7 @@ const dbUrl =
 const db = spicedPg(dbUrl);
 
 module.exports.getData = function getData() {
-    return db.query(`SELECT * FROM images`);
+    return db.query(`SELECT * FROM images LIMIT 12`);
 };
 
 module.exports.pushImage = function pushImage(

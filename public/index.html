@@ -1,44 +1,71 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css"
+            rel="stylesheet"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+        />
         <link rel="stylesheet" href="/styles.css" type="text/css" />
         <title>Salt Image Board</title>
     </head>
 
     <body>
         <div class="" id="main">
-            <form>
-                <input
-                    v-model="formUpload.title"
-                    type="text"
-                    name="title"
-                    value=""
-                    placeholder="image title"
-                />
-                <input
-                    v-model="formUpload.description"
-                    type="text"
-                    name="description"
-                    value=""
-                    placeholder="image description"
-                />
-                <input
-                    v-model="formUpload.username"
-                    type="text"
-                    name="username"
-                    value=""
-                    placeholder="enter your username"
-                />
-                <input
-                    type="file"
-                    name="file"
-                    value=""
-                    accept="image/*"
-                    @change="handleFiles"
-                />
-                <button @click.prevent.default="uploadFile">Upload</button>
-            </form>
+            <v-card color="#26c6da" class="uploadMenu">
+                <v-container>
+                    <v-form>
+                        <v-text-field
+                            class="uploadForm"
+                            v-model="formUpload.title"
+                            type="text"
+                            name="title"
+                            value=""
+                            label="Image title"
+                            required
+                        ></v-text-field>
+                        <v-text-field
+                            class="uploadForm"
+                            v-model="formUpload.description"
+                            type="text"
+                            name="description"
+                            value=""
+                            label="Image description"
+                            required
+                        ></v-text-field>
+                        <v-text-field
+                            class="uploadForm"
+                            v-model="formUpload.username"
+                            type="text"
+                            name="username"
+                            value=""
+                            label="Enter your username"
+                            required
+                        ></v-text-field>
+                        <input
+                            id="file"
+                            class="inputfile"
+                            type="file"
+                            name="file"
+                            value=""
+                            accept="image/*"
+                            @change="handleFiles"
+                            required
+                        />
+                        <label for="file">Choose a file</label>
+                        <v-btn @click.prevent.default="uploadFile"
+                            >Upload</v-btn
+                        >
+                    </v-form>
+                </v-container>
+            </v-card>
 
             <div class="cardcontainer">
                 <div
@@ -55,48 +82,55 @@
             <modal-component
                 v-if="clickedImgCard"
                 :clicked-img-card="clickedImgCard"
+                @close-modal="toggleModal(null)"
             ></modal-component>
         </div>
+
         <script id="modal-template" type="text/x-template">
-                <div class="modal-container">
-                <div class="modal">
-                    <div class="picture">
-            <img class="imgModal" :src="modalInfo.url" alt="image" />
-                <h2>{{modalInfo.title}}</h2>
-                <h3>{{modalInfo.description}}</h3>
-            <p>Uploaded by {{modalInfo.username}} at {{modalInfo.created_at}}</p>
+                <v-card>
+                    <v-container>
+                    <div class="modal-container">
+                    <div class="modal">
+                        <div class="picture" @click="closeModal">
+                <img class="imgModal" :src="modalInfo.url" alt="image" />
+                    <h2>{{modalInfo.title}}</h2>
+                    <h3>{{modalInfo.description}}</h3>
+                <p>Uploaded by {{modalInfo.username}} at {{modalInfo.created_at}}</p>
+                    </div>
+                    </div>
+                    <div>
+                    <form>
+                    <input
+                    v-model="sendComment.comment"
+                    type="text"
+                    name="comment"
+                    value=""
+                    placeholder="comment"
+                    />
+                    <input
+                    v-model="sendComment.username"
+                    type="text"
+                    name="username"
+                    value=""
+                    placeholder="username"
+                    />
+                    <button @click.prevent.default="uploadComment
+                    ">Comment</button>
+                    </form>
+                    </div>
+                <div >
+                    <li v-for="comment in modalComments">
+                <h3>{{comment.comment}}</h3>
+                <h4>{{comment.comment_user}} on {{comment.comment_timestamp}}</h4>
+                    </li>
+                    </div>
                 </div>
-                </div>
-                <div>
-                <form>
-                <input
-                v-model="sendComment.comment"
-                type="text"
-                name="comment"
-                value=""
-                placeholder="comment"
-                />
-                <input
-                v-model="sendComment.username"
-                type="text"
-                name="username"
-                value=""
-                placeholder="username"
-                />
-                <button @click.prevent.default="uploadComment
-                ">Comment</button>
-                </form>
-                </div>
-            <div  v-if="modalComments">
-                <li v-for="comment in modalComments">
-            <h3>{{comment.comment}}</h3>
-            <h4>{{comment.comment_user}} on {{comment.comment_timestamp}}</h4>
-                </li>
-                </div>
-                </div>
+            </v-container>
+            </v-card>
         </script>
 
-        <script src="/js/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
         <script src="/js/axios.min.js"></script>
         <script src="/js/script.js"></script>
     </body>
