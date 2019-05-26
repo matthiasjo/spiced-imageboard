@@ -1,18 +1,12 @@
 (function() {
     Vue.component("modal-component", {
-        // #1 define the html right here
-        // #2 define the html for the mdal in my html file and tell my
-        // my component where to find it.
-        // template: `<div class="modal-container">
-        //     <h1>More info about img<h1><p>this is text</p></div>`
-        // OR
-        template: "#modal-template",
         props: ["clickedImgCard"],
         data: function() {
             // with function obj is shared. with func its for the comp unique
             // applies only if component is rendered multiple times
             return {
-                modalContent: [],
+                modalInfo: [],
+                modalComments: [],
                 sendComment: {
                     comment: "",
                     username: "",
@@ -26,7 +20,8 @@
             axios
                 .get("/get-img-info/" + this.clickedImgCard)
                 .then(resp => {
-                    self.modalContent = resp.data;
+                    self.modalInfo = resp.data[0];
+                    self.modalComments = resp.data[1].reverse();
                 })
                 .catch(err => console.log(err));
         },
@@ -36,14 +31,15 @@
                 formData.append("comment", this.sendComment.comment);
                 formData.append("username", this.sendComment.username);
 
+                var self = this;
                 axios
                     .post("/sendComment", this.sendComment)
                     .then(function(resp) {
-                        console.log(resp);
-                        // vm.images.unshift(resp.data);
+                        self.modalComments.unshift(resp.data);
                     });
             }
-        }
+        },
+        template: "#modal-template"
     });
 
     var vm = new Vue({
@@ -67,7 +63,7 @@
             //this refers to the vue instane
             axios.get("/data").then(function(resp) {
                 // NO ARROW FUNCTIONS!!!
-                self.images = resp.data.rows;
+                self.images = resp.data.rows.reverse();
             });
         },
         methods: {

@@ -41,20 +41,15 @@ app.get("/data", (req, res) => {
 app.get("/get-img-info/:id", (req, res) => {
     db.getImageModal(req.params.id)
         .then(qResponse => {
-            let imageModal = {
-                id: qResponse.rows[0].id,
+            const imageModal = {
+                id: qResponse.rows[0].image_id,
                 description: qResponse.rows[0].description,
                 url: qResponse.rows[0].url,
                 username: qResponse.rows[0].username,
-                title: qResponse.rows[0].title,
-                created_at: qResponse.rows[0].created_at,
-                comment: qResponse.rows,
-                comment_id: qResponse.rows,
-                comment_timestamp: qResponse.rows,
-                comment_user: qResponse.rows
+                title: qResponse.rows[0].title
             };
-            console.log(imageModal.comment);
-            res.json(imageModal);
+            const commentsModal = qResponse.rows;
+            res.json([imageModal, commentsModal]);
         })
         .catch(err => console.log(err));
 });
@@ -86,7 +81,14 @@ app.post("/sendComment", (req, res) => {
     const { comment, username, id } = req.body;
     db.pushComment(comment, username, id)
         .then(qResponse => {
-            console.log(qResponse);
+            const newComment = {
+                comment_user: username,
+                comment: comment,
+                image_id: id,
+                comment_id: qResponse.rows[0].comment_id,
+                comment_timestamp: qResponse.rows[0].comment_timestamp
+            };
+            res.json(newComment);
         })
         .catch(err => console.log(err));
 });

@@ -17,7 +17,6 @@
         "express": "^4.14.0",
         "knox-s3": "^0.9.5",
         "multer": "^1.2.0",
-        "prettier": "^1.17.1",
         "serve-static": "^1.14.1",
         "spiced-pg": "^1.0.0",
         "uid-safe": "^2.1.4"

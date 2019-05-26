@@ -32,7 +32,7 @@ module.exports.getImageModal = function getImageModal(id) {
 
 module.exports.pushComment = function pushComment(comment, username, imgId) {
     return db.query(
-        `INSERT INTO comments (comment, username, image_id) VALUES ($1, $2, $3) RETURNING created_at`,
+        `INSERT INTO comments (comment, username, image_id) VALUES ($1, $2, $3) RETURNING comments.created_at AS comment_timestamp, comments.id AS comment_id`,
         [comment, username, imgId]
     );
 };

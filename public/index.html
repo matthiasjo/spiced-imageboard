@@ -58,41 +58,42 @@
             ></modal-component>
         </div>
         <script id="modal-template" type="text/x-template">
-                                    <div class="modal-container">
-                                <div class="modal">
-                                <div class="picture">
-                                    <img class="imgModal" :src="modalContent.url" alt="image" />
-                                <h2>{{modalContent.title}}</h2>
-                                <h3>{{modalContent.description}}</h3>
-                                <p>Uploaded by {{modalContent.username}} at {{modalContent.created_at}}</p>
-                            </div>
-                            </div>
-                            <div>
-                            <form>
-                                <input
-                                    v-model="sendComment.comment"
-                                    type="text"
-                                    name="comment"
-                                    value=""
-                                    placeholder="image description"
-                                />
-                                <input
-                                    v-model="sendComment.username"
-                                    type="text"
-                                    name="username"
-                                    value=""
-                                    placeholder="enter your username"
-                                />
-                                <button @click.prevent.default="uploadComment">Comment</button>
-                            </form>
-                        </div>
-                        <div  v-if="modalContent.comment">
-                            <li>
-                <h3>{{modalContent.comment}}</h3>
-                <h4>{{modalContent.comment_user}} on {{modalContent.comment_timestamp}}</h4>
-            </li>
-                        </div>
-                        </div>
+                <div class="modal-container">
+                <div class="modal">
+                    <div class="picture">
+            <img class="imgModal" :src="modalInfo.url" alt="image" />
+                <h2>{{modalInfo.title}}</h2>
+                <h3>{{modalInfo.description}}</h3>
+            <p>Uploaded by {{modalInfo.username}} at {{modalInfo.created_at}}</p>
+                </div>
+                </div>
+                <div>
+                <form>
+                <input
+                v-model="sendComment.comment"
+                type="text"
+                name="comment"
+                value=""
+                placeholder="comment"
+                />
+                <input
+                v-model="sendComment.username"
+                type="text"
+                name="username"
+                value=""
+                placeholder="username"
+                />
+                <button @click.prevent.default="uploadComment
+                ">Comment</button>
+                </form>
+                </div>
+            <div  v-if="modalComments">
+                <li v-for="comment in modalComments">
+            <h3>{{comment.comment}}</h3>
+            <h4>{{comment.comment_user}} on {{comment.comment_timestamp}}</h4>
+                </li>
+                </div>
+                </div>
         </script>
 
         <script src="/js/vue.js"></script>
