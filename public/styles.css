@@ -28,9 +28,16 @@
     transform: scale(1.1);
 }
 
-img {
+.imgOverview {
     object-fit: cover;
     display: relative;
     width: 15rem;
     height: 15rem;
+}
+
+.imgModal {
+    object-fit: cover;
+    display: relative;
+    width: 30rem;
+    height: 30rem;
 }

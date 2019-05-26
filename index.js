@@ -5,9 +5,12 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./utils/s3");
+const bodyParser = require("body-parser");
 
 const app = express();
 const port = 8080;
+
+app.use(bodyParser.json());
 
 const diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -35,6 +38,27 @@ app.get("/data", (req, res) => {
         .catch(err => console.log(err));
 });
 
+app.get("/get-img-info/:id", (req, res) => {
+    db.getImageModal(req.params.id)
+        .then(qResponse => {
+            let imageModal = {
+                id: qResponse.rows[0].id,
+                description: qResponse.rows[0].description,
+                url: qResponse.rows[0].url,
+                username: qResponse.rows[0].username,
+                title: qResponse.rows[0].title,
+                created_at: qResponse.rows[0].created_at,
+                comment: qResponse.rows,
+                comment_id: qResponse.rows,
+                comment_timestamp: qResponse.rows,
+                comment_user: qResponse.rows
+            };
+            console.log(imageModal.comment);
+            res.json(imageModal);
+        })
+        .catch(err => console.log(err));
+});
+
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     // If nothing went wrong the file is already in the uploads directory
     console.log("THIS IS MY CONSOLE LOG", req.body);
@@ -44,9 +68,9 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     const url =
         `https://s3.amazonaws.com/spiced-salt-image-board/` + req.file.filename;
     db.pushImage(url, username, title, description)
-        .then(() => {
-            //push it to vue
+        .then(qResponse => {
             const image = {
+                id: qResponse.rows[0].id,
                 description: description,
                 title: title,
                 url: url,
@@ -54,6 +78,15 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
                 success: true
             };
             res.json(image);
+        })
+        .catch(err => console.log(err));
+});
+
+app.post("/sendComment", (req, res) => {
+    const { comment, username, id } = req.body;
+    db.pushComment(comment, username, id)
+        .then(qResponse => {
+            console.log(qResponse);
         })
         .catch(err => console.log(err));
 });

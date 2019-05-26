@@ -39,26 +39,61 @@
                 />
                 <button @click.prevent.default="uploadFile">Upload</button>
             </form>
-            <!-- WE CAN NOW DO VUE THINGS IN THIS DIV -->
-            <!--
-                <p>2 +2 = {{2+2}}</p>
-                <h1>Welcome to my site, {{name}}</h1>
 
-                <ul>
-                    <li v-for="(animal, index) in cuteAnimals" v-if="animal.cuteness > 5">{{animal.name}} {{animal.cuteness}}</li>
-                </ul>
-            -->
-
-            <!-- <p v-if="cities.length > 0">{{cities[0].name}}</p> -->
             <div class="cardcontainer">
-                <div class="card" v-for="image in images">
+                <div
+                    class="card"
+                    v-for="image in images"
+                    @click="toggleModal(image.id)"
+                >
                     <div class="picture">
-                        <img :src="image.url" alt="image" />
+                        <img class="imgOverview" :src="image.url" alt="image" />
                     </div>
                     <div class="subtitle"><p>{{image.title}}</p></div>
                 </div>
             </div>
+            <modal-component
+                v-if="clickedImgCard"
+                :clicked-img-card="clickedImgCard"
+            ></modal-component>
         </div>
+        <script id="modal-template" type="text/x-template">
+                                    <div class="modal-container">
+                                <div class="modal">
+                                <div class="picture">
+                                    <img class="imgModal" :src="modalContent.url" alt="image" />
+                                <h2>{{modalContent.title}}</h2>
+                                <h3>{{modalContent.description}}</h3>
+                                <p>Uploaded by {{modalContent.username}} at {{modalContent.created_at}}</p>
+                            </div>
+                            </div>
+                            <div>
+                            <form>
+                                <input
+                                    v-model="sendComment.comment"
+                                    type="text"
+                                    name="comment"
+                                    value=""
+                                    placeholder="image description"
+                                />
+                                <input
+                                    v-model="sendComment.username"
+                                    type="text"
+                                    name="username"
+                                    value=""
+                                    placeholder="enter your username"
+                                />
+                                <button @click.prevent.default="uploadComment">Comment</button>
+                            </form>
+                        </div>
+                        <div  v-if="modalContent.comment">
+                            <li>
+                <h3>{{modalContent.comment}}</h3>
+                <h4>{{modalContent.comment_user}} on {{modalContent.comment_timestamp}}</h4>
+            </li>
+                        </div>
+                        </div>
+        </script>
 
         <script src="/js/vue.js"></script>
         <script src="/js/axios.min.js"></script>
