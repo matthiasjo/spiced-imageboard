@@ -70,26 +70,22 @@
             </v-card>
 
             <div class="cardcontainer">
-                <v-card
-                    hover
-                    class="imgCard"
-                    v-for="image in images"
-                    @click="toggleModal(image.id)"
-                >
-                    <v-img
-                        class="imgOverview"
-                        height="20rem"
-                        width="20rem"
-                        :src="image.url"
-                        alt="image"
-                    ></v-img>
+                <v-card hover class="imgCard" v-for="image in images"
+                    ><a :href="'#' + image.id">
+                        <v-img
+                            class="imgOverview"
+                            height="20rem"
+                            width="20rem"
+                            :src="image.url"
+                            alt="image"
+                        ></v-img>
+                    </a>
                     <v-card-title primary-title>{{image.title}}</v-card-title>
                 </v-card>
             </div>
             <modal-component
                 v-if="clickedImgCard"
                 :clicked-img-card="clickedImgCard"
-                @close-modal="toggleModal(null)"
             ></modal-component>
         </div>
 
@@ -97,7 +93,7 @@
                 <v-card>
                     <div class="modal-container">
                     <div class="modal">
-                        <div class="picture" @click="closeModal">
+                        <div class="picture" @click.prevent.default="closeModal">
                 <img class="imgModal" :src="modalInfo.url" alt="image" />
                     <h2>{{modalInfo.title}}</h2>
                     <h3>{{modalInfo.description}}</h3>
@@ -129,10 +125,11 @@
                 <div  class="commentsList">
                     <v-card color="#ff6f3c">
                     <v-list-tile
-                     v-for="comment in modalComments" v-if="modalComments[0].comment != null">
+                     v-for="comment in modalComments">
                     <v-list-tile-content class="singleComment">
                 <v-list-tile-title>{{comment.comment}}</v-list-tile-title>
                 <v-list-tile-sub-title>{{comment.comment_user}} on {{new Date(comment.comment_timestamp).toLocaleString()}}</v-list-tile-sub-title>
+            </v-list-tile-content>
                     </v-list-tile>
                 </v-card>
                     </div>

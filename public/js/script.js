@@ -40,7 +40,15 @@
                     .catch(err => console.log(err));
             },
             closeModal: function() {
-                this.$emit("close-modal");
+                vm.dialog = false;
+                location.hash = "";
+            }
+        },
+        watch: {
+            id: function() {
+                console.log("I AM RUNNING IN THE COMPONENT");
+                this.clickedImgCard = location.hash.slice(1);
+                vm.dialog = true;
             }
         },
         template: "#modal-template"
@@ -50,8 +58,9 @@
         // majority of our Vue code will go into this object
         el: "#main",
         data: {
-            clickedImgCard: "",
+            clickedImgCard: location.hash.slice(1),
             images: [],
+            dialog: false,
             formUpload: {
                 title: "",
                 description: "",
@@ -65,14 +74,11 @@
                 // NO ARROW FUNCTIONS!!!
                 self.images = resp.data.rows;
             });
-            // addEventListener("hashchange", function() {
-            //     self.clickedImgCard = location.hash.slice(1);
-            // });
+            addEventListener("hashchange", function() {
+                self.clickedImgCard = location.hash.slice(1);
+            });
         },
         methods: {
-            toggleModal: function(imageId) {
-                this.clickedImgCard = imageId;
-            },
             // every single function that runs in response to an event will be written here.
             handleFiles: function(event) {
                 this.formUpload.file = event.target.files[0];
@@ -87,6 +93,13 @@
                 axios.post("/upload", formData).then(function(resp) {
                     vm.images.unshift(resp.data);
                 });
+            }
+        },
+        watch: {
+            clickedImgCard: function() {
+                console.log("I AM RUNNING IN MAIN");
+                this.clickedImgCard = location.hash.slice(1);
+                vm.dialog = true;
             }
         }
     });
