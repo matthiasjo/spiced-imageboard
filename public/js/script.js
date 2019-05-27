@@ -21,7 +21,7 @@
                 .get("/get-img-info/" + this.clickedImgCard)
                 .then(resp => {
                     self.modalInfo = resp.data[0];
-                    self.modalComments = resp.data[1].reverse();
+                    self.modalComments = resp.data[1];
                 })
                 .catch(err => console.log(err));
         },
@@ -36,7 +36,8 @@
                     .post("/sendComment", this.sendComment)
                     .then(function(resp) {
                         self.modalComments.unshift(resp.data);
-                    });
+                    })
+                    .catch(err => console.log(err));
             },
             closeModal: function() {
                 this.$emit("close-modal");
@@ -59,15 +60,14 @@
             }
         },
         mounted: function() {
-            // here we are going to make axios requests to get data
-            //from the server that we need to then render on screen
-
             var self = this;
-            //this refers to the vue instane
             axios.get("/data").then(function(resp) {
                 // NO ARROW FUNCTIONS!!!
-                self.images = resp.data.rows.reverse();
+                self.images = resp.data.rows;
             });
+            // addEventListener("hashchange", function() {
+            //     self.clickedImgCard = location.hash.slice(1);
+            // });
         },
         methods: {
             toggleModal: function(imageId) {

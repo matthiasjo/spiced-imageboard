@@ -1,5 +1,8 @@
 #main {
 }
+* {
+    font-family: "Roboto";
+}
 
 .cardcontainer {
     margin: auto;
@@ -13,18 +16,14 @@
     width: 80%;
 }
 
-.card {
-    overflow: hidden;
+.imgCard {
     border-radius: 10%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     align-content: center;
-    width: 15rem;
-    height: 17rem;
     margin: 1rem;
-    border: 0.05rem black solid;
     transition: all 0.2s ease-in-out;
 }
 .card:hover {
@@ -34,8 +33,6 @@
 .imgOverview {
     object-fit: cover;
     display: relative;
-    width: 20rem;
-    height: 20rem;
 }
 
 .imgModal {
@@ -58,7 +55,7 @@
     font-size: 1.25em;
     font-weight: 400;
     color: black;
-    background-color: #ffeb3b;
+    background-color: #ffc93c;
     display: inline-block;
     padding: 0.5em;
     border-radius: 5%;
@@ -78,17 +75,27 @@
     display: inline-flex;
     width: 33%;
 }
+.commentForm {
+    display: inline-flex;
+    width: 33%;
+}
 
 .modal-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #42a5f5;
+    background-color: #155263;
     position: fixed;
     z-index: 1;
-    top: 15%;
-    left: 25%;
-    width: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    height: 80%;
+    margin: auto;
+    padding-top: 2rem;
+    overflow-y: auto;
 }
 
 .modal-container > img {
@@ -100,9 +107,20 @@
 }
 
 body {
-    background-color: #861657;
-    background-image: linear-gradient(326deg, #861657 0%, #ffa69e 74%);
+    background-color: #ff9a3c;
     background-size: cover;
     background-position: center;
     margin: 0;
+}
+
+.commentList {
+    width: 30%;
+}
+.singleComment {
+    justify-content: center;
+    border-bottom: 0.1rem #ffc93c solid;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }

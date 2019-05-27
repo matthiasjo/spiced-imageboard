@@ -46,7 +46,8 @@ app.get("/get-img-info/:id", (req, res) => {
                 description: qResponse.rows[0].description,
                 url: qResponse.rows[0].url,
                 username: qResponse.rows[0].username,
-                title: qResponse.rows[0].title
+                title: qResponse.rows[0].title,
+                created_at: qResponse.rows[0].created_at
             };
             const commentsModal = qResponse.rows;
             res.json([imageModal, commentsModal]);
