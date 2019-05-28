@@ -73,7 +73,7 @@
                 <v-card
                     hover
                     class="imgCard"
-                    v-for="image in images"
+                    v-for="image in images.slice(0, 12)"
                     :key="image.url"
                     ><a :href="'#' + image.id">
                         <v-img
@@ -88,12 +88,26 @@
                 </v-card>
             </div>
 
-            <div class="text-xs-center">
-                <v-pagination
-                    color="#155263"
-                    v-model="page"
-                    :length="4"
-                ></v-pagination>
+            <div class="text-xs-center" v-if="images.length > 0">
+                <v-btn
+                    v-if="images[0].id != images[0].highest_id"
+                    fab
+                    dark
+                    color="indigo"
+                    @click.prevent.default="backward"
+                >
+                    <v-icon dark>skip_previous</v-icon>
+                </v-btn>
+
+                <v-btn
+                    v-if="images[images.length -1].id != images[images.length -1].lowest_id"
+                    fab
+                    dark
+                    color="teal"
+                    @click.prevent.default="forward"
+                >
+                    <v-icon dark>skip_next</v-icon>
+                </v-btn>
             </div>
 
             <modal-component

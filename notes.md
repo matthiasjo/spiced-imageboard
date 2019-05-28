@@ -28,3 +28,5 @@ FROM images WHERE id=2`
 SELECT images.created_at AS created_at, description, images.username AS username, title, images.id AS image_id, url,
 (SELECT ARRAY(SELECT row_to_json(comments) FROM comments WHERE image_id=$1)) AS "commentsArr"
 FROM images WHERE id=$1;
+
+self.images[self.images.length-1].id

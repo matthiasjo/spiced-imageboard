@@ -59,7 +59,6 @@
         // majority of our Vue code will go into this object
         el: "#main",
         data: {
-            page: 1,
             clickedImgCard: location.hash.slice(1),
             images: [],
             formUpload: {
@@ -74,6 +73,7 @@
             axios.get("/data").then(function(resp) {
                 // NO ARROW FUNCTIONS!!!
                 self.images = resp.data.rows;
+                console.log("IMAGE ARRAY", self.images);
             });
             addEventListener("hashchange", function() {
                 self.clickedImgCard = location.hash.slice(1);
@@ -91,13 +91,38 @@
                 formData.append("username", this.formUpload.username);
                 formData.append("description", this.formUpload.description);
 
-                axios.post("/upload", formData).then(function(resp) {
-                    vm.images.unshift(resp.data);
-                });
+                axios
+                    .post("/upload", formData)
+                    .then(function(resp) {
+                        vm.images.unshift(resp.data);
+                    })
+                    .catch(err => console.log(err));
             },
             close: function() {
-                this.clickedImgCard = "";
                 history.pushState("", "/randomString", "");
+                this.clickedImgCard = "";
+            },
+            forward: function() {
+                var self = this;
+                var lastid = self.images[self.images.length - 1].id;
+                axios
+                    .get("/get-more-img/" + "forward" + "/" + lastid)
+                    .then(function(resp) {
+                        console.log("forward", resp.data.rows);
+                        self.images = resp.data.rows;
+                    })
+                    .catch(err => console.log(err));
+            },
+            backward: function() {
+                var self = this;
+                var lastid = self.images[0].id;
+                axios
+                    .get("/get-more-img/" + "backward" + "/" + lastid)
+                    .then(function(resp) {
+                        console.log("backwards", resp.data.rows);
+                        self.images = resp.data.rows;
+                    })
+                    .catch(err => console.log(err));
             }
         }
     });

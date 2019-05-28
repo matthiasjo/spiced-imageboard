@@ -7,9 +7,51 @@ const db = spicedPg(dbUrl);
 
 module.exports.getData = function getData() {
     return db.query(
-        `SELECT * FROM images
-                    ORDER BY id DESC
-                    LIMIT 12`
+        `SELECT *, (
+          SELECT id FROM images
+          ORDER BY id ASC
+          LIMIT 1)
+          AS lowest_id, (
+            SELECT id FROM images
+            ORDER BY id DESC
+            LIMIT 1)
+            AS highest_id  FROM images ORDER BY id DESC LIMIT 12;`
+    );
+};
+
+exports.getLessImages = function getMoreImages(maxid) {
+    return db.query(
+        `SELECT *, (
+       SELECT id FROM images
+       ORDER BY id ASC
+       LIMIT 1)
+       AS lowest_id, (
+         SELECT id FROM images
+         ORDER BY id DESC
+         LIMIT 1)
+         AS highest_id FROM images
+       WHERE id < $1
+       ORDER BY id DESC
+       LIMIT 12;`,
+        [maxid]
+    );
+};
+
+exports.getMoreImages = function getMoreImages(maxid) {
+    return db.query(
+        `SELECT *, (
+       SELECT id FROM images
+       ORDER BY id ASC
+       LIMIT 1)
+       AS lowest_id, (
+         SELECT id FROM images
+         ORDER BY id DESC
+         LIMIT 1)
+         AS highest_id FROM images
+       WHERE id > $1
+       ORDER BY id DESC
+       LIMIT 12;`,
+        [maxid]
     );
 };
 

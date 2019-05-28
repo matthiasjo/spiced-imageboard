@@ -57,6 +57,23 @@ app.get("/get-img-info/:id", (req, res) => {
         .catch(err => console.log(err));
 });
 
+app.get("/get-more-img/:direction/:lastid", (req, res) => {
+    console.log("LAST ID", req.params.lastid);
+    if (req.params.direction == "backward") {
+        db.getMoreImages(req.params.lastid)
+            .then(qResponse => {
+                res.json(qResponse);
+            })
+            .catch(err => console.log(err));
+    } else if (req.params.direction == "forward") {
+        db.getLessImages(req.params.lastid)
+            .then(qResponse => {
+                res.json(qResponse);
+            })
+            .catch(err => console.log(err));
+    }
+});
+
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     // If nothing went wrong the file is already in the uploads directory
     console.log("THIS IS MY CONSOLE LOG", req.body);
