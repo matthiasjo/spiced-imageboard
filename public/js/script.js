@@ -15,17 +15,20 @@
             };
         },
         mounted: function() {
-            console.log("clicked Img Url: ", this.clickedImgCard);
-            var self = this;
-            axios
-                .get("/get-img-info/" + this.clickedImgCard)
-                .then(resp => {
-                    self.modalInfo = resp.data[0];
-                    self.modalComments = resp.data[1];
-                })
-                .catch(err => console.log(err));
+            this.getModal();
         },
         methods: {
+            getModal: function getModal() {
+                console.log("clicked Img Url: ", this.clickedImgCard);
+                var self = this;
+                axios
+                    .get("/get-img-info/" + this.clickedImgCard)
+                    .then(resp => {
+                        self.modalInfo = resp.data[0];
+                        self.modalComments = resp.data[1];
+                    })
+                    .catch(err => console.log(err));
+            },
             uploadComment: function() {
                 var formData = new FormData();
                 formData.append("comment", this.sendComment.comment);
@@ -45,9 +48,9 @@
             }
         },
         watch: {
-            id: function() {
-                console.log("I AM RUNNING IN THE COMPONENT");
-                this.clickedImgCard = location.hash.slice(1);
+            clickedImgCard: function() {
+                this.clickedImgCard;
+                this.getModal();
                 vm.dialog = true;
             }
         },
@@ -93,13 +96,6 @@
                 axios.post("/upload", formData).then(function(resp) {
                     vm.images.unshift(resp.data);
                 });
-            }
-        },
-        watch: {
-            clickedImgCard: function() {
-                console.log("I AM RUNNING IN MAIN");
-                this.clickedImgCard = location.hash.slice(1);
-                vm.dialog = true;
             }
         }
     });
