@@ -49,8 +49,10 @@ app.get("/get-img-info/:id", (req, res) => {
                 title: qResponse.rows[0].title,
                 created_at: qResponse.rows[0].created_at
             };
-            const commentsModal = qResponse.rows;
-            res.json([imageModal, commentsModal]);
+            let commentsModal = qResponse.rows[0].commentsArr;
+            let tempComms = commentsModal.reverse();
+
+            res.json([imageModal, tempComms]);
         })
         .catch(err => console.log(err));
 });
@@ -83,11 +85,11 @@ app.post("/sendComment", (req, res) => {
     db.pushComment(comment, username, id)
         .then(qResponse => {
             const newComment = {
-                comment_user: username,
+                username: username,
                 comment: comment,
                 image_id: id,
-                comment_id: qResponse.rows[0].comment_id,
-                comment_timestamp: qResponse.rows[0].comment_timestamp
+                id: qResponse.rows[0].id,
+                created_at: qResponse.rows[0].created_at
             };
             res.json(newComment);
         })

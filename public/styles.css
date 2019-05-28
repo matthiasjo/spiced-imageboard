@@ -14,6 +14,7 @@
     align-content: center;
     flex-wrap: wrap;
     width: 80%;
+    margin-bottom: 5rem;
 }
 
 .imgCard {
@@ -35,6 +36,11 @@
     border-top-right-radius: 10%;
     object-fit: cover;
     display: relative;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .imgModal {

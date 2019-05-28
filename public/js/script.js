@@ -43,15 +43,17 @@
                     .catch(err => console.log(err));
             },
             closeModal: function() {
-                vm.dialog = false;
                 location.hash = "";
+                vm.dialog = false;
+                // location.hash = "";
+                // history.pushState({}, "hello", "/");
             }
         },
         watch: {
             clickedImgCard: function() {
+                vm.dialog = true;
                 this.clickedImgCard;
                 this.getModal();
-                vm.dialog = true;
             }
         },
         template: "#modal-template"
@@ -61,6 +63,7 @@
         // majority of our Vue code will go into this object
         el: "#main",
         data: {
+            page: 1,
             clickedImgCard: location.hash.slice(1),
             images: [],
             dialog: false,

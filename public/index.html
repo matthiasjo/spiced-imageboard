@@ -70,7 +70,11 @@
             </v-card>
 
             <div class="cardcontainer">
-                <v-card hover class="imgCard" v-for="image in images"
+                <v-card
+                    hover
+                    class="imgCard"
+                    v-for="image in images"
+                    :key="image.url"
                     ><a :href="'#' + image.id">
                         <v-img
                             class="imgOverview"
@@ -83,6 +87,15 @@
                     <v-card-title primary-title>{{image.title}}</v-card-title>
                 </v-card>
             </div>
+
+            <div class="text-xs-center">
+                <v-pagination
+                    color="#155263"
+                    v-model="page"
+                    :length="4"
+                ></v-pagination>
+            </div>
+
             <modal-component
                 v-if="clickedImgCard"
                 :clicked-img-card="clickedImgCard"
@@ -125,10 +138,10 @@
                 <div  class="commentsList">
                     <v-card color="#ff6f3c">
                     <v-list-tile
-                     v-for="comment in modalComments">
+                     v-for="comment in modalComments" :key="comment.id">
                     <v-list-tile-content class="singleComment">
                 <v-list-tile-title>{{comment.comment}}</v-list-tile-title>
-                <v-list-tile-sub-title>{{comment.comment_user}} on {{new Date(comment.comment_timestamp).toLocaleString()}}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{comment.username}} on {{new Date(comment.created_at).toLocaleString()}}</v-list-tile-sub-title>
             </v-list-tile-content>
                     </v-list-tile>
                 </v-card>
