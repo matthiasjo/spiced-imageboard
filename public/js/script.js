@@ -43,15 +43,11 @@
                     .catch(err => console.log(err));
             },
             closeModal: function() {
-                location.hash = "";
-                vm.dialog = false;
-                // location.hash = "";
-                // history.pushState({}, "hello", "/");
+                this.$emit("close-modal");
             }
         },
         watch: {
             clickedImgCard: function() {
-                vm.dialog = true;
                 this.clickedImgCard;
                 this.getModal();
             }
@@ -66,7 +62,6 @@
             page: 1,
             clickedImgCard: location.hash.slice(1),
             images: [],
-            dialog: false,
             formUpload: {
                 title: "",
                 description: "",
@@ -99,6 +94,10 @@
                 axios.post("/upload", formData).then(function(resp) {
                     vm.images.unshift(resp.data);
                 });
+            },
+            close: function() {
+                this.clickedImgCard = "";
+                history.pushState("", "/randomString", "");
             }
         }
     });
