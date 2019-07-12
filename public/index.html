@@ -118,11 +118,12 @@
         </div>
 
         <script id="modal-template" type="text/x-template">
-                <v-card>
+                <v-card
+                min-width="30rem">
                     <div class="modal-container">
                     <div class="modal">
                         <div class="picture" @click.prevent.default="closeModal">
-                <img class="imgModal" :src="modalInfo.url" alt="image" />
+                <v-img class="imgModal" height="30rem" width="30rem" :src="modalInfo.url" alt="image" /></v-img>
                     <h2>{{modalInfo.title}}</h2>
                     <h3>{{modalInfo.description}}</h3>
                 <p>Uploaded by {{modalInfo.username}} at {{new Date(modalInfo.created_at).toLocaleString()}}</p>
